@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yılan Oyunu - Ana Menü</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00ff88;
+            --secondary: #00ccff;
+            --accent: #ff00cc;
+            --bg-dark: #0a0a12;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --shadow: rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a12 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            color: white;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.4));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            margin: 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .main-content {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .card {
+            background: rgba(20, 20, 35, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .instructions {
+            width: 280px;
+            flex-shrink: 0;
+        }
+
+        .instructions h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .instructions h4 {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin: 12px 0 8px 0;
+        }
+
+        .instructions ul {
+            color: #cbd5e1;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            padding-left: 18px;
+        }
+
+        .instructions li {
+            margin-bottom: 5px;
+        }
+
+        .instructions .controls {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--glass-border);
+            text-align: center;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        .menu-section {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .menu-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .menu-btn {
+            background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.1) 100%);
+            border: 1px solid var(--glass-border);
+            padding: 1.5rem;
+            border-radius: 15px;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+
+        .menu-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .menu-btn:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
+        }
+
+        .menu-btn:hover::before {
+            opacity: 0.1;
+        }
+
+        .icon {
+            font-size: 1.5rem;
+        }
+
+        .promo {
+            width: 320px;
+            flex-shrink: 0;
+        }
+
+        .promo-content {
+            text-align: center;
+        }
+
+        .promo-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 20px rgba(255, 140, 0, 0.6));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .promo h3 {
+            color: #ff8c00;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .promo .username {
+            color: #00d9ff;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+
+        .promo p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.95rem;
+            margin: 20px 0;
+        }
+
+        .promo-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 15px 30px;
+            background: linear-gradient(90deg, #ff6b35 0%, #f7598d 50%, #e91e63 100%);
+            border-radius: 12px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: transform 0.2s;
+            margin-top: 25px;
+        }
+
+        .promo-button:hover {
+            transform: scale(1.05);
+        }
+
+        .promo-button div {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .promo-button span:first-child {
+            font-size: 0.75rem;
+            opacity: 0.9;
+        }
+
+        .promo-button span:last-child {
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+
+        .footer {
+            margin-top: 3rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Top Section: Instructions, Logo+Title+Buttons, Instagram -->
+        <div style="display: flex; gap: 30px; align-items: flex-start; justify-content: center;">
+            <!-- Instructions -->
+            <div class="instructions card">
+                <h3>🎮 Nasıl Oynanır?</h3>
+                
+                <h4>👤 Tek Kişilik</h4>
+                <ul>
+                    <li>Ok tuşları veya WASD ile hareket et</li>
+                    <li>Meyveleri topla, puan kazan:</li>
+                    <li style="margin-left: 15px;">🍎 Elma: 10 | 🍊 Portakal: 15</li>
+                    <li style="margin-left: 15px;">🍋 Limon: 12 | 🍇 Üzüm: 20</li>
+                    <li style="margin-left: 15px;">🍓 Çilek: 18</li>
+                    <li>Kendine veya duvara çarparsan kaybedersin</li>
+                </ul>
+
+                <h4>👥 Çok Kişilik</h4>
+                <ul>
+                    <li>Oyun oluştur veya katıl</li>
+                    <li>Yılan görünümü seç</li>
+                    <li>Harita için oy ver</li>
+                    <li>💣 Bombalara çarpma (-20 puan)</li>
+                    <li>Hazır olunca oyun başlayacak</li>
+                    <li>Rakibinden fazla puan topla!</li>
+                </ul>
+            </div>
+
+            <!-- Center: Logo + Buttons -->
+            <div class="card" style="flex-shrink: 0; padding: 30px;">
+                <!-- Logo Section -->
+                <div class="logo-section" style="margin-bottom: 2rem;">
+                    <div class="logo">🐍</div>
+                    <h1>Yılan Oyunu</h1>
+                </div>
+
+                <!-- Menu Buttons -->
+                <div style="display: flex; gap: 1.5rem; justify-content: center;">
+                    <a href="singleplayer.html" class="menu-btn" style="flex: 1; min-width: 200px;">
+                        <span class="icon">👤</span>
+                        <span>Tek Oyunculu</span>
+                    </a>
+                    <a href="multiplayer.html" class="menu-btn" style="flex: 1; min-width: 200px;">
+                        <span class="icon">👥</span>
+                        <span>Çok Oyunculu</span>
+                    </a>
+                </div>
+
+                <div class="footer" style="margin-top: 2rem;">
+                    İyi Eğlenceler!
+                </div>
+            </div>
+
+            <!-- Instagram Promo -->
+            <div class="promo card" style="width: 320px; flex-shrink: 0;">
+                <div class="promo-content">
+                    <div class="promo-icon">📸</div>
+                    <h3>Takip Et!</h3>
+                    <div class="username">@kaan.doc</div>
+                    <p>Instagram'da benimle bağlantıda kalın</p>
+                    <a href="https://instagram.com/kaan.doc" target="_blank" rel="noopener" class="promo-button">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.46154 0C3.34062 0 0 3.34062 0 7.46154V16.5385C0 20.6594 3.34062 24 7.46154 24H16.5385C20.6594 24 24 20.6594 24 16.5385V7.46154C24 3.34062 20.6594 0 16.5385 0H7.46154ZM16.5385 2.18182H7.46154C4.5456 2.18182 2.18182 4.5456 2.18182 7.46154V16.5385C2.18182 19.4544 4.5456 21.8182 7.46154 21.8182H16.5385C19.4544 21.8182 21.8182 19.4544 21.8182 16.5385V7.46154C21.8182 4.5456 19.4544 2.18182 16.5385 2.18182ZM12 5.81818C8.58578 5.81818 5.81818 8.58578 5.81818 12C5.81818 15.4142 8.58578 18.1818 12 18.1818C15.4142 18.1818 18.1818 15.4142 18.1818 12C18.1818 8.58578 15.4142 5.81818 12 5.81818ZM12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8ZM18.7273 6.36364C19.3298 6.36364 19.8182 5.87523 19.8182 5.27273C19.8182 4.67023 19.3298 4.18182 18.7273 4.18182C18.1248 4.18182 17.6364 4.67023 17.6364 5.27273C17.6364 5.87523 18.1248 6.36364 18.7273 6.36364Z" fill="white"/>
+                        </svg>
+                        <div>
+                            <span>Instagram'da</span>
+                            <span>Takip Et</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
