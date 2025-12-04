@@ -405,40 +405,89 @@ function toggleFullscreen() {
     
     const gameContainer = document.querySelector('.game-container');
     
-    if (!document.fullscreenElement) {
+    // Check if already in fullscreen (with webkit prefix support)
+    const isFullscreen = !!(document.fullscreenElement || 
+                           document.webkitFullscreenElement || 
+                           document.mozFullScreenElement || 
+                           document.msFullscreenElement);
+    
+    if (!isFullscreen) {
         // Enter fullscreen - ONLY GAME CONTAINER
         console.log('Oyun tam ekrana giriyor...');
-        gameContainer.requestFullscreen().then(() => {
-            console.log('Oyun tam ekranda!');
+        
+        // Try different fullscreen methods for cross-browser support
+        if (gameContainer.requestFullscreen) {
+            gameContainer.requestFullscreen().then(() => {
+                console.log('Oyun tam ekranda!');
+                updateFullscreenButton(true);
+            }).catch(err => {
+                console.error('Fullscreen ERROR:', err);
+            });
+        } else if (gameContainer.webkitRequestFullscreen) {
+            // Safari/iOS
+            gameContainer.webkitRequestFullscreen();
             updateFullscreenButton(true);
-        }).catch(err => {
-            console.error('Fullscreen ERROR:', err);
-            alert('Tam ekran modu başarısız: ' + err.message);
-        });
+        } else if (gameContainer.mozRequestFullScreen) {
+            // Firefox
+            gameContainer.mozRequestFullScreen();
+            updateFullscreenButton(true);
+        } else if (gameContainer.msRequestFullscreen) {
+            // IE/Edge
+            gameContainer.msRequestFullscreen();
+            updateFullscreenButton(true);
+        }
     } else {
         // Exit fullscreen
         console.log('Tam ekrandan çıkılıyor...');
-        document.exitFullscreen().then(() => {
+        
+        if (document.exitFullscreen) {
+            document.exitFullscreen().then(() => {
+                updateFullscreenButton(false);
+            });
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
             updateFullscreenButton(false);
-        });
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+            updateFullscreenButton(false);
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+            updateFullscreenButton(false);
+        }
     }
 }
 
 // Update fullscreen button appearance
 function updateFullscreenButton(isFullscreen) {
     const fullscreenBtn = document.getElementById('fullscreen-btn');
-    const text = fullscreenBtn?.querySelector('.fullscreen-text');
+    const gameoverBtn = document.getElementById('gameover-fullscreen-btn');
     
-    if (!fullscreenBtn || !text) return;
+    // Update start screen button
+    if (fullscreenBtn) {
+        const text = fullscreenBtn.querySelector('.fullscreen-text');
+        if (text) {
+            if (isFullscreen) {
+                fullscreenBtn.classList.add('exit-fullscreen');
+                text.textContent = 'Tam Ekrandan Çık';
+            } else {
+                fullscreenBtn.classList.remove('exit-fullscreen');
+                text.textContent = 'Tam Ekran';
+            }
+        }
+    }
     
-    if (isFullscreen) {
-        // In fullscreen - show exit button (red)
-        fullscreenBtn.classList.add('exit-fullscreen');
-        text.textContent = 'Tam Ekrandan Çık';
-    } else {
-        // Not in fullscreen - show enter button (green)
-        fullscreenBtn.classList.remove('exit-fullscreen');
-        text.textContent = 'Tam Ekran';
+    // Update game over screen button
+    if (gameoverBtn) {
+        const text = gameoverBtn.querySelector('.fullscreen-text');
+        if (text) {
+            if (isFullscreen) {
+                gameoverBtn.classList.add('exit-fullscreen');
+                text.textContent = 'Tam Ekrandan Çık';
+            } else {
+                gameoverBtn.classList.remove('exit-fullscreen');
+                text.textContent = 'Tam Ekran';
+            }
+        }
     }
 }
 
@@ -446,9 +495,33 @@ function updateFullscreenButton(isFullscreen) {
 function initFullscreen() {
     console.log('initFullscreen() - Setting up fullscreen event listeners');
     
-    // Listen for fullscreen changes from ESC key or other triggers
+    // Attach click event listeners to fullscreen buttons
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
+    const gameoverBtn = document.getElementById('gameover-fullscreen-btn');
+    
+    if (fullscreenBtn) {
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+    }
+    
+    if (gameoverBtn) {
+        gameoverBtn.addEventListener('click', toggleFullscreen);
+    }
+    
+    // Listen for fullscreen changes from ESC key or other triggers (with webkit support)
     document.addEventListener('fullscreenchange', () => {
         updateFullscreenButton(!!document.fullscreenElement);
+    });
+    
+    document.addEventListener('webkitfullscreenchange', () => {
+        updateFullscreenButton(!!document.webkitFullscreenElement);
+    });
+    
+    document.addEventListener('mozfullscreenchange', () => {
+        updateFullscreenButton(!!document.mozFullScreenElement);
+    });
+    
+    document.addEventListener('msfullscreenchange', () => {
+        updateFullscreenButton(!!document.msFullscreenElement);
     });
     
     console.log('Fullscreen listeners ready');

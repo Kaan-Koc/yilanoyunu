@@ -13,6 +13,12 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            overscroll-behavior: none;
+            touch-action: pan-x pan-y;
+            -webkit-overflow-scrolling: auto;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
@@ -252,6 +258,9 @@
             border: 3px solid rgba(99, 102, 241, 0.3);
             display: block;
             margin: 20px auto;
+            touch-action: none;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
         .game-info {
@@ -2120,6 +2129,10 @@
 
         // Start game
         function startGame(initialFood, resetScores = true) {
+            // Stop any existing game loop immediately
+            if (gameInterval) clearInterval(gameInterval);
+            isPlaying = false;
+            
             showScreen('game-screen');
             initCanvas();
             
@@ -3164,17 +3177,23 @@
         
         if (gameCanvas) {
             gameCanvas.addEventListener('touchstart', (e) => {
+                e.preventDefault();
                 touchStartX = e.changedTouches[0].screenX;
                 touchStartY = e.changedTouches[0].screenY;
-            }, false);
+            }, { passive: false });
+            
+            gameCanvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+            }, { passive: false });
             
             gameCanvas.addEventListener('touchend', (e) => {
+                e.preventDefault();
                 if (!isPlaying || !myAlive) return;
                 
                 touchEndX = e.changedTouches[0].screenX;
                 touchEndY = e.changedTouches[0].screenY;
                 handleSwipe();
-            }, false);
+            }, { passive: false });
         }
         
         function handleSwipe() {

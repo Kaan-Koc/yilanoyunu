@@ -97,23 +97,6 @@
               <button 
                 id="fullscreen-btn" 
                 class="fullscreen-btn-overlay" 
-                onclick="
-                  var gameContainer = document.querySelector('.game-container');
-                  if (!document.fullscreenElement) {
-                    gameContainer.requestFullscreen()
-                      .then(() => {
-                        this.querySelector('.fullscreen-text').textContent = 'Tam Ekrandan Çık';
-                        this.classList.add('exit-fullscreen');
-                      })
-                      .catch(err => console.error(err));
-                  } else {
-                    document.exitFullscreen()
-                      .then(() => {
-                        this.querySelector('.fullscreen-text').textContent = 'Tam Ekran';
-                        this.classList.remove('exit-fullscreen');
-                      });
-                  }
-                "
                 style="cursor: pointer !important;">
                 <span class="fullscreen-icon">⛶</span>
                 <span class="fullscreen-text">Tam Ekran</span>
@@ -134,23 +117,6 @@
               <button 
                 id="gameover-fullscreen-btn"
                 class="fullscreen-btn-overlay" 
-                onclick="
-                  var gameContainer = document.querySelector('.game-container');
-                  if (!document.fullscreenElement) {
-                    gameContainer.requestFullscreen()
-                      .then(() => {
-                        this.querySelector('.fullscreen-text').textContent = 'Tam Ekrandan Çık';
-                        this.classList.add('exit-fullscreen');
-                      })
-                      .catch(err => console.error(err));
-                  } else {
-                    document.exitFullscreen()
-                      .then(() => {
-                        this.querySelector('.fullscreen-text').textContent = 'Tam Ekran';
-                        this.classList.remove('exit-fullscreen');
-                      });
-                  }
-                "
                 style="cursor: pointer !important;">
                 <span class="fullscreen-icon">⛶</span>
                 <span class="fullscreen-text">Tam Ekran</span>
