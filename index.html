@@ -259,6 +259,284 @@
             color: rgba(255, 255, 255, 0.3);
             font-size: 0.9rem;
         }
+
+        /* Responsive Design for Tablets and Mobile */
+        @media (max-width: 1200px) {
+            body {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+                letter-spacing: 2px;
+            }
+
+            .logo {
+                font-size: 3.5rem;
+            }
+
+            /* Stack sections vertically on tablets and smaller */
+            .main-content,
+            div[style*="display: flex"] {
+                flex-direction: column !important;
+                align-items: center !important;
+            }
+
+            .instructions,
+            .promo {
+                width: 100% !important;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .menu-section {
+                width: 100%;
+                max-width: 500px;
+            }
+
+            .card[style*="flex-shrink: 0"] {
+                width: 100% !important;
+                max-width: 500px;
+            }
+
+            .menu-btn {
+                min-width: auto !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px 10px;
+            }
+
+            .logo-section {
+                margin-bottom: 2rem;
+            }
+
+            .logo {
+                font-size: 3rem;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+                letter-spacing: 1px;
+            }
+
+            .card {
+                padding: 20px;
+                border-radius: 16px;
+            }
+
+            .instructions {
+                width: 100% !important;
+                max-width: 100%;
+            }
+
+            .instructions h3 {
+                font-size: 1rem;
+            }
+
+            .instructions h4 {
+                font-size: 0.85rem;
+            }
+
+            .instructions ul {
+                font-size: 0.75rem;
+            }
+
+            .menu-section {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            div[style*="display: flex; gap: 1.5rem"] {
+                flex-direction: column !important;
+            }
+
+            .menu-btn {
+                font-size: 1.1rem;
+                padding: 1.25rem;
+                width: 100% !important;
+                min-width: auto !important;
+            }
+
+            .icon {
+                font-size: 1.3rem;
+            }
+
+            .promo {
+                width: 100% !important;
+                max-width: 100%;
+            }
+
+            .promo-icon {
+                font-size: 3rem;
+            }
+
+            .promo h3 {
+                font-size: 1.5rem;
+            }
+
+            .promo .username {
+                font-size: 1.25rem;
+            }
+
+            .promo p {
+                font-size: 0.9rem;
+                margin: 15px 0;
+            }
+
+            .promo-button {
+                padding: 12px 24px;
+                font-size: 0.95rem;
+            }
+
+            .promo-button span:first-child {
+                font-size: 0.7rem;
+            }
+
+            .promo-button span:last-child {
+                font-size: 1rem;
+            }
+
+            .footer {
+                margin-top: 2rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px 5px;
+            }
+
+            .container {
+                max-width: 100%;
+            }
+
+            .logo-section {
+                margin-bottom: 1.5rem;
+            }
+
+            .logo {
+                font-size: 2.5rem;
+                margin-bottom: 0.75rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+                letter-spacing: 1px;
+            }
+
+            .card {
+                padding: 15px;
+                border-radius: 12px;
+            }
+
+            .instructions h3 {
+                font-size: 0.95rem;
+                margin-bottom: 12px;
+            }
+
+            .instructions h4 {
+                font-size: 0.8rem;
+                margin: 10px 0 6px 0;
+            }
+
+            .instructions ul {
+                font-size: 0.7rem;
+                line-height: 1.5;
+                padding-left: 16px;
+            }
+
+            .instructions li {
+                margin-bottom: 4px;
+            }
+
+            .instructions .controls {
+                margin-top: 15px;
+                padding-top: 12px;
+                font-size: 0.8rem;
+            }
+
+            .menu-btn {
+                font-size: 1rem;
+                padding: 1rem;
+                gap: 0.75rem;
+            }
+
+            .icon {
+                font-size: 1.2rem;
+            }
+
+            .promo-icon {
+                font-size: 2.5rem;
+                margin-bottom: 15px;
+            }
+
+            .promo h3 {
+                font-size: 1.25rem;
+                margin: 8px 0;
+            }
+
+            .promo .username {
+                font-size: 1.1rem;
+                margin: 8px 0;
+            }
+
+            .promo p {
+                font-size: 0.85rem;
+                margin: 15px 0;
+            }
+
+            .promo-button {
+                padding: 10px 20px;
+                gap: 10px;
+                font-size: 0.9rem;
+                margin-top: 20px;
+            }
+
+            .promo-button svg {
+                width: 24px !important;
+                height: 24px !important;
+            }
+
+            .promo-button span:first-child {
+                font-size: 0.65rem;
+            }
+
+            .promo-button span:last-child {
+                font-size: 0.95rem;
+            }
+
+            .footer {
+                margin-top: 1.5rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Landscape mode for small devices */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .logo {
+                font-size: 2rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .logo-section {
+                margin-bottom: 1rem;
+            }
+
+            .card {
+                padding: 15px;
+            }
+
+            .footer {
+                margin-top: 1rem;
+            }
+        }
     </style>
 </head>
 <body>

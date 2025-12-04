@@ -27,7 +27,6 @@
           </div>
         </div>
 
-        
         <!-- Fruit Points Legend -->
         <div class="skin-card" style="margin-top: 20px;">
             <h3 class="skin-title" style="margin-bottom: 1rem;">Puan Tablosu</h3>
@@ -64,22 +63,8 @@
       <!-- Game Wrapper -->
       <div class="game-wrapper">
         <div class="header">
-          <div
-            style="
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              gap: 15px;
-              margin-bottom: 20px;
-            "
-          >
-            <span
-              style="
-                font-size: 50px;
-                filter: drop-shadow(0 0 10px rgba(57, 255, 20, 0.5));
-              "
-              >🐍</span
-            >
+          <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 20px;">
+            <span style="font-size: 50px; filter: drop-shadow(0 0 10px rgba(57, 255, 20, 0.5));">🐍</span>
             <h1 class="title">YILAN OYUNU</h1>
           </div>
           <div class="score-panel">
@@ -107,6 +92,32 @@
               <button id="start-button" class="start-button">
                 Oyunu Başlat
               </button>
+              
+              <!-- Fullscreen Button -->
+              <button 
+                id="fullscreen-btn" 
+                class="fullscreen-btn-overlay" 
+                onclick="
+                  var gameContainer = document.querySelector('.game-container');
+                  if (!document.fullscreenElement) {
+                    gameContainer.requestFullscreen()
+                      .then(() => {
+                        this.querySelector('.fullscreen-text').textContent = 'Tam Ekrandan Çık';
+                        this.classList.add('exit-fullscreen');
+                      })
+                      .catch(err => console.error(err));
+                  } else {
+                    document.exitFullscreen()
+                      .then(() => {
+                        this.querySelector('.fullscreen-text').textContent = 'Tam Ekran';
+                        this.classList.remove('exit-fullscreen');
+                      });
+                  }
+                "
+                style="cursor: pointer !important;">
+                <span class="fullscreen-icon">⛶</span>
+                <span class="fullscreen-text">Tam Ekran</span>
+              </button>
             </div>
           </div>
 
@@ -117,6 +128,32 @@
               <div id="final-score" class="final-score">0</div>
               <button id="restart-button" class="start-button">
                 Tekrar Oyna
+              </button>
+              
+              <!-- Smart Fullscreen Toggle Button in Game Over -->
+              <button 
+                id="gameover-fullscreen-btn"
+                class="fullscreen-btn-overlay" 
+                onclick="
+                  var gameContainer = document.querySelector('.game-container');
+                  if (!document.fullscreenElement) {
+                    gameContainer.requestFullscreen()
+                      .then(() => {
+                        this.querySelector('.fullscreen-text').textContent = 'Tam Ekrandan Çık';
+                        this.classList.add('exit-fullscreen');
+                      })
+                      .catch(err => console.error(err));
+                  } else {
+                    document.exitFullscreen()
+                      .then(() => {
+                        this.querySelector('.fullscreen-text').textContent = 'Tam Ekran';
+                        this.classList.remove('exit-fullscreen');
+                      });
+                  }
+                "
+                style="cursor: pointer !important;">
+                <span class="fullscreen-icon">⛶</span>
+                <span class="fullscreen-text">Tam Ekran</span>
               </button>
             </div>
           </div>
@@ -132,6 +169,14 @@
             <span class="description">Duraklat</span>
           </div>
         </div>
+
+        <!-- Swipe Instructions for Mobile -->
+        <div id="swipe-info" class="swipe-info">
+          <div class="swipe-info-title">📱 Mobil Kontroller</div>
+          <div class="swipe-info-text">
+            Oyun alanında parmağınızı kaydırarak y lanı yönlendirin
+          </div>
+        </div>
       </div>
 
       <!-- Promo Sidebar -->
@@ -141,7 +186,7 @@
           <h3 class="promo-title">Takip Et!</h3>
           <div class="promo-username">@kaan.doc</div>
           <p class="promo-text">Instagram'da benimle bağlantıda kalın</p>
-          <a href="#" class="promo-button">
+          <a href="https://instagram.com/kaan.doc" target="_blank" class="promo-button">
             <svg
               width="24"
               height="24"
@@ -157,18 +202,11 @@
                 fill="white"
               />
             </svg>
-            <div
-              style="
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-              "
-            >
+            <div style="display: flex; flex-direction: column; align-items: flex-start;">
               <span style="font-size: 0.8rem; opacity: 0.9">Instagram'da</span>
               <span style="font-size: 1.1rem">Takip Et</span>
             </div>
           </a>
-        </div>
         </div>
       </div>
     </div>

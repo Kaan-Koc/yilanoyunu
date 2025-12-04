@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yılan Oyunu</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Skin Sidebar -->
+      <div class="skin-sidebar">
+        <div class="skin-card">
+          <div class="selection-row" style="display: flex; gap: 20px">
+            <div class="selection-column" style="flex: 1">
+              <h3 class="skin-title">Yılan Görünümü</h3>
+              <div id="skin-options" class="skin-options"></div>
+            </div>
+            <div class="selection-column" style="flex: 1">
+              <h3 class="skin-title">Harita Teması</h3>
+              <div id="map-options" class="map-options"></div>
+            </div>
+          </div>
+        </div>
+
+        
+        <!-- Fruit Points Legend -->
+        <div class="skin-card" style="margin-top: 20px;">
+            <h3 class="skin-title" style="margin-bottom: 1rem;">Puan Tablosu</h3>
+            <div class="fruit-legend">
+                <div class="fruit-item">
+                    <span class="fruit-emoji">🍎</span>
+                    <span class="fruit-name">Elma</span>
+                    <span class="fruit-points">10</span>
+                </div>
+                <div class="fruit-item">
+                    <span class="fruit-emoji">🍊</span>
+                    <span class="fruit-name">Portakal</span>
+                    <span class="fruit-points">15</span>
+                </div>
+                <div class="fruit-item">
+                    <span class="fruit-emoji">🍋</span>
+                    <span class="fruit-name">Limon</span>
+                    <span class="fruit-points">12</span>
+                </div>
+                <div class="fruit-item">
+                    <span class="fruit-emoji">🍇</span>
+                    <span class="fruit-name">Üzüm</span>
+                    <span class="fruit-points">20</span>
+                </div>
+                <div class="fruit-item">
+                    <span class="fruit-emoji">🍓</span>
+                    <span class="fruit-name">Çilek</span>
+                    <span class="fruit-points">18</span>
+                </div>
+            </div>
+        </div>
+      </div>
+
+      <!-- Game Wrapper -->
+      <div class="game-wrapper">
+        <div class="header">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 15px;
+              margin-bottom: 20px;
+              <button 
+                id="fullscreen-btn" 
+                class="fullscreen-btn-overlay" 
+                onclick="
+                  console.log('OYUN TAM EKRAN!');
+                  var gameContainer = document.querySelector('.game-container');
+                  if (!document.fullscreenElement) {
+                    gameContainer.requestFullscreen()
+                      .then(() => {
+                        console.log('Oyun tam ekranda!');
+                        this.querySelector('.fullscreen-text').textContent = 'Tam Ekrandan Çık';
+                        this.classList.add('exit-fullscreen');
+                      })
+                      .catch(err => alert('Hata: ' + err.message));
+                  } else {
+                    document.exitFullscreen()
+                      .then(() => {
+                        this.querySelector('.fullscreen-text').textContent = 'Tam Ekran';
+                        this.classList.remove('exit-fullscreen');
+                      });
+                  }
+                "
+                style="cursor: pointer !important;">
+                <span class="fullscreen-icon">⛶</span>
+                <span class="fullscreen-text">Tam Ekran</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="game-over-overlay" class="game-overlay hidden">
+            <div class="overlay-content">
+              <h2 class="overlay-title game-over">Oyun Bitti!</h2>
+              <p class="overlay-text">Son Skor</p>
+              <div id="final-score" class="final-score">0</div>
+              <button id="restart-button" class="start-button">
+                Tekrar Oyna
+              </button>
+              
+              <!-- Smart Fullscreen Toggle Button in Game Over -->
+              <button 
+                id="gameover-fullscreen-btn"
+                class="fullscreen-btn-overlay" 
+                onclick="
+                  var gameContainer = document.querySelector('.game-container');
+                  if (!document.fullscreenElement) {
+                    // Enter fullscreen
+                    gameContainer.requestFullscreen()
+                      .then(() => {
+                        this.querySelector('.fullscreen-text').textContent = 'Tam Ekrandan Çık';
+                        this.classList.add('exit-fullscreen');
+                      })
+                      .catch(err => console.error(err));
+                  } else {
+                    // Exit fullscreen
+                    document.exitFullscreen()
+                      .then(() => {
+                        this.querySelector('.fullscreen-text').textContent = 'Tam Ekran';
+                        this.classList.remove('exit-fullscreen');
+                      });
+                  }
+                "
+                style="cursor: pointer !important;">
+                <span class="fullscreen-icon">⛶</span>
+                <span class="fullscreen-text">Tam Ekran</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls-info">
+          <div class="control-item">
+            <span class="key">↑↓←→</span>
+            <span class="description">Hareket</span>
+          </div>
+          <div class="control-item">
+            <span class="key">Space</span>
+            <span class="description">Duraklat</span>
+          </div>
+        </div>
+
+        <!-- Swipe Instructions for Mobile -->
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              style="flex-shrink: 0"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yılan Oyunu</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Skin Sidebar -->
+      <div class="skin-sidebar">
+        <div class="skin-card">
+          <div class="selection-row" style="display: flex; gap: 20px">
+            <div class="selection-column" style="flex: 1">
+              <h3 class="skin-title">Yılan Görünümü</h3>
+              <div id="skin-options" class="skin-options"></div>
+            </div>
+            <div class="selection-column" style="flex: 1">
+              <h3 class="skin-title">Harita Teması</h3>
+              <div id="map-options" class="map-options"></div>
+            </div>
+          </div>
+        </div>
+
+        
+        <!-- Fruit Points Legend -->
+        <div class="skin-card" style="margin-top: 20px;">
+            <h3 class="skin-title" style="margin-bottom: 1rem;">Puan Tablosu</h3>
+            <div class="fruit-legend">
+                <div class="fruit-item">
+                    <span class="fruit-emoji">🍎</span>
+                    <span class="fruit-name">Elma</span>
+                    <span class="fruit-points">10</span>
+                </div>
+                <div class="fruit-item">
+                    <span class="fruit-emoji">🍊</span>
+                    <span class="fruit-name">Portakal</span>
+                    <span class="fruit-points">15</span>
+                </div>
+                <div class="fruit-item">
+                    <span class="fruit-emoji">🍋</span>
+                    <span class="fruit-name">Limon</span>
+                    <span class="fruit-points">12</span>
+                </div>
+                <div class="fruit-item">
+                    <span class="fruit-emoji">🍇</span>
+                    <span class="fruit-name">Üzüm</span>
+                    <span class="fruit-points">20</span>
+                </div>
+                <div class="fruit-item">
+                    <span class="fruit-emoji">🍓</span>
+                    <span class="fruit-name">Çilek</span>
+                    <span class="fruit-points">18</span>
+                </div>
+            </div>
+        </div>
+      </div>
+
+      <!-- Game Wrapper -->
+      <div class="game-wrapper">
+        <div class="header">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 15px;
+              margin-bottom: 20px;
+              <button 
+                id="fullscreen-btn" 
+                class="fullscreen-btn-overlay" 
+                onclick="
+                  console.log('OYUN TAM EKRAN!');
+                  var gameContainer = document.querySelector('.game-container');
+                  if (!document.fullscreenElement) {
+                    gameContainer.requestFullscreen()
+                      .then(() => {
+                        console.log('Oyun tam ekranda!');
+                        this.querySelector('.fullscreen-text').textContent = 'Tam Ekrandan Çık';
+                        this.classList.add('exit-fullscreen');
+                      })
+                      .catch(err => alert('Hata: ' + err.message));
+                  } else {
+                    document.exitFullscreen()
+                      .then(() => {
+                        this.querySelector('.fullscreen-text').textContent = 'Tam Ekran';
+                        this.classList.remove('exit-fullscreen');
+                      });
+                  }
+                "
+                style="cursor: pointer !important;">
+                <span class="fullscreen-icon">⛶</span>
+                <span class="fullscreen-text">Tam Ekran</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="game-over-overlay" class="game-overlay hidden">
+            <div class="overlay-content">
+              <h2 class="overlay-title game-over">Oyun Bitti!</h2>
+              <p class="overlay-text">Son Skor</p>
+              <div id="final-score" class="final-score">0</div>
+              <button id="restart-button" class="start-button">
+                Tekrar Oyna
+              </button>
+              
+              <!-- Smart Fullscreen Toggle Button in Game Over -->
+              <button 
+                id="gameover-fullscreen-btn"
+                class="fullscreen-btn-overlay" 
+                onclick="
+                  var gameContainer = document.querySelector('.game-container');
+                  if (!document.fullscreenElement) {
+                    // Enter fullscreen
+                    gameContainer.requestFullscreen()
+                      .then(() => {
+                        this.querySelector('.fullscreen-text').textContent = 'Tam Ekrandan Çık';
+                        this.classList.add('exit-fullscreen');
+                      })
+                      .catch(err => console.error(err));
+                  } else {
+                    // Exit fullscreen
+                    document.exitFullscreen()
+                      .then(() => {
+                        this.querySelector('.fullscreen-text').textContent = 'Tam Ekran';
+                        this.classList.remove('exit-fullscreen');
+                      });
+                  }
+                "
+                style="cursor: pointer !important;">
+                <span class="fullscreen-icon">⛶</span>
+                <span class="fullscreen-text">Tam Ekran</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls-info">
+          <div class="control-item">
+            <span class="key">↑↓←→</span>
+            <span class="description">Hareket</span>
+          </div>
+          <div class="control-item">
+            <span class="key">Space</span>
+            <span class="description">Duraklat</span>
+          </div>
+        </div>
+
+        <!-- Swipe Instructions for Mobile -->
+            </div>
+        </div>
+      </div>
+    </div>
+    <script src="storage.js"></script>
+    <script src="game.js"></script>
+  </body>
+</html>

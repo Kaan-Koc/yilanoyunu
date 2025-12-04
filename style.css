@@ -172,7 +172,8 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
+  z-index: 9999 !important; /* MAXIMUM z-index to be on top of everything */
+  pointer-events: auto !important; /* Allow clicks */
 }
 
 .game-overlay.hidden {
@@ -185,6 +186,10 @@ body::before {
   text-align: center;
   padding: 1.5rem;
   max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: auto; /* Ensure buttons are clickable */
 }
 
 .overlay-title {
@@ -224,7 +229,7 @@ body::before {
   background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
   color: white;
   border: none;
-  padding: 0.875rem 2.5rem;
+  padding: 0.875rem 1.5rem;
   font-size: 1rem;
   font-weight: 700;
   border-radius: 12px;
@@ -232,6 +237,12 @@ body::before {
   margin-top: 1rem;
   font-family: inherit;
   box-shadow: 0 4px 20px var(--primary-glow);
+  width: 240px;
+  height: 50px; /* Fixed height for exact vertical sizing */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto; /* Ensure clickable */
 }
 
 .start-button:hover {
@@ -490,6 +501,212 @@ body::before {
   }
 }
 
+/* Fullscreen Button - Fixed at bottom (OUTSIDE overlay) */
+.fullscreen-btn-fixed {
+  display: none; /* Hidden on desktop */
+  background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 0.875rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer !important;
+  font-family: inherit;
+  box-shadow: 0 4px 20px rgba(0, 255, 136, 0.4);
+  width: 240px;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 1rem auto;
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 999 !important;
+}
+
+.fullscreen-btn-fixed:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 255, 136, 0.6);
+}
+
+.fullscreen-btn-fixed:active {
+  transform: translateY(0);
+}
+
+/* Red state when in fullscreen (exit mode) */
+.fullscreen-btn-fixed.exit-fullscreen {
+  background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+  box-shadow: 0 4px 20px rgba(255, 68, 68, 0.4);
+}
+
+.fullscreen-btn-fixed.exit-fullscreen:hover {
+  box-shadow: 0 8px 30px rgba(255, 68, 68, 0.6);
+}
+
+.fullscreen-btn-fixed .fullscreen-icon {
+  font-size: 1.2rem;
+}
+
+.fullscreen-btn-fixed .fullscreen-text {
+  font-size: 1rem;
+}
+
+/* Show buttons on mobile */
+@media (max-width: 1200px) {
+  .fullscreen-btn-fixed {
+    display: flex;
+  }
+  
+  .fullscreen-btn-overlay {
+    display: flex;
+  }
+  
+  /* Game over fullscreen button always visible on mobile */
+  #gameover-fullscreen-btn {
+    display: flex !important;
+  }
+  
+  /* MOBILE LAYOUT REORDERING */
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .promo-sidebar {
+    order: 1; /* Instagram at TOP */
+  }
+  
+  .skin-sidebar {
+    display: contents; /* Remove wrapper, children become direct flex items */
+  }
+  
+  /* Order individual cards */
+  .skin-sidebar .skin-card:first-child {
+    order: 2; /* Yılan Görünümü + Harita - under Instagram */
+  }
+  
+  .game-wrapper {
+    order: 3; /* Game in MIDDLE */
+  }
+  
+  .skin-sidebar .skin-card:last-child {
+    order: 4; /* Puan Tablosu - at BOTTOM */
+  }
+  
+  /* Make puan tablosu card wider on mobile */
+  .skin-sidebar .skin-card {
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  /* Hide mobil kontroller section on mobile */
+  .swipe-info {
+    display: none !important;
+  }
+  
+  /* Simplify and integrate puan tablosu on mobile */
+  .skin-sidebar .skin-card:last-child {
+    margin-top: 0.5rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: none;
+  }
+  
+  /* Remove extra spacing from game container */
+  .game-wrapper {
+    margin-bottom: 0;
+  }
+  
+  .controls-info {
+    display: none; /* Hide arrow/space controls on mobile */
+  }
+}
+
+/* Old overlay button - keep for compatibility but hide */
+.fullscreen-btn-overlay {
+  display: none; /* Hidden on desktop */
+  background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%); /* Green gradient */
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 0.875rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer !important;
+  margin-top: 0.75rem;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  box-shadow: 0 4px 20px rgba(0, 255, 136, 0.4); /* Green glow */
+  width: 240px;
+  height: 50px; /* Fixed height matching start button */
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  pointer-events: auto !important; /* Ensure button is clickable */
+  position: relative;
+  z-index: 10000 !important; /* Above everything else */
+}
+
+.fullscreen-btn-overlay:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 255, 136, 0.6);
+}
+
+.fullscreen-btn-overlay:active {
+  transform: translateY(0);
+}
+
+/* Red state when in fullscreen (exit mode) */
+.fullscreen-btn-overlay.exit-fullscreen {
+  background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%); /* Red gradient */
+  box-shadow: 0 4px 20px rgba(255, 68, 68, 0.4); /* Red glow */
+}
+
+.fullscreen-btn-overlay.exit-fullscreen:hover {
+  box-shadow: 0 8px 30px rgba(255, 68, 68, 0.6);
+}
+
+.fullscreen-btn-overlay .fullscreen-icon {
+  font-size: 1.2rem;
+}
+
+.fullscreen-btn-overlay .fullscreen-text {
+  font-size: 1rem;
+}
+
+/* Mobile Swipe Instructions */
+.swipe-info {
+  display: none;
+  text-align: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 15px auto;
+  max-width: 400px;
+}
+
+.swipe-info.active {
+  display: block;
+}
+
+.swipe-info-title {
+  color: var(--primary);
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.swipe-info-text {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
   .container {
@@ -501,36 +718,249 @@ body::before {
 
   .skin-sidebar,
   .promo-sidebar {
-    position: static; /* Mobilde normal akışa dön */
+    position: static;
     width: 100%;
     max-width: 500px;
   }
 
-  .skin-options {
-    flex-direction: row;
+  .selection-row {
+    flex-direction: column !important;
+  }
+
+  .skin-options,
+  .map-options {
+    flex-direction: row !important;
     flex-wrap: wrap;
     justify-content: center;
   }
 
-  .skin-option {
-    flex: 1 1 150px;
+  .skin-option,
+  .map-option {
+    flex: 1 1 calc(50% - 10px);
+    max-width: 200px;
+  }
+
+  /* Show fullscreen button on mobile */
+  .fullscreen-btn-overlay {
+    display: flex;
+  }
+
+  /* Hide keyboard controls, show swipe info */
+  .controls-info {
+    display: none;
+  }
+
+  .swipe-info {
+    display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 0.5rem;
+  }
+
+  .game-wrapper {
+    padding: 1rem;
+    min-width: auto;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .header {
+    margin-bottom: 1.5rem;
+  }
+
+  .header > div:first-child span {
+    font-size: 40px !important;
+  }
+
+  .score-panel {
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .score-item {
+    min-width: 100px;
+    padding: 0.5rem 1rem;
+  }
+
+  .label {
+    font-size: 0.7rem;
+  }
+
+  .value {
+    font-size: 1.5rem;
+  }
+
+  /* Remove canvas upward transform on mobile */
+  .game-container {
+    transform: translateY(0);
+    margin-bottom: 1.5rem;
+  }
+
+  #game-canvas {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .controls-info {
+    display: none; /* Hide keyboard controls on mobile */
+  }
+
+  .skin-card,
+  .promo-card {
+    padding: 1rem;
+  }
+
+  .skin-title,
+  .promo-title {
+    font-size: 0.9rem;
+  }
+
+  .promo-icon {
+    font-size: 3rem;
+  }
+
+  .promo-username {
+    font-size: 1.25rem;
+  }
+
+  .promo-text {
+    font-size: 0.85rem;
+  }
+
+  .overlay-title {
+    font-size: 1.5rem;
+  }
+
+  .overlay-text {
+    font-size: 0.9rem;
+  }
+
+  .start-button {
+    padding: 0.75rem 2rem;
+    font-size: 0.95rem;
   }
 }
 
 @media (max-width: 600px) {
   .game-wrapper {
-    padding: 1rem;
-    min-width: auto;
-    width: 100%;
+    padding: 0.75rem;
   }
+
   .title {
     font-size: 1.5rem;
   }
+
+  .header > div:first-child {
+    gap: 10px !important;
+  }
+
+  .header > div:first-child span {
+    font-size: 35px !important;
+  }
+
+  .score-panel {
+    gap: 0.5rem;
+    /* Keep horizontal layout */
+  }
+
+  .score-item {
+    flex: 1;
+    min-width: 0;
+    padding: 0.5rem 0.75rem;
+  }
+
+  #game-canvas {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .skin-option,
+  .map-option {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
   .promo-card {
     padding: 1.5rem 1rem;
   }
+
   .promo-icon {
-    font-size: 3rem;
+    font-size: 2.5rem;
+  }
+
+  .promo-username {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-wrapper {
+    padding: 0.5rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .header > div:first-child span {
+    font-size: 30px !important;
+  }
+
+  .label {
+    font-size: 0.65rem;
+  }
+
+  .value {
+    font-size: 1.25rem;
+  }
+
+  .overlay-title {
+    font-size: 1.25rem;
+  }
+
+  .overlay-text {
+    font-size: 0.85rem;
+  }
+
+  .final-score {
+    font-size: 1.25rem;
+  }
+
+  .start-button {
+    padding: 0.625rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Landscape mode optimization for mobile */
+@media (max-width: 900px) and (orientation: landscape) {
+  .container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .skin-sidebar,
+  .promo-sidebar {
+    max-width: 250px;
+    order: 2;
+  }
+
+  .game-wrapper {
+    order: 1;
+    max-width: 500px;
+  }
+
+  #game-canvas {
+    width: 400px !important;
+    height: 400px !important;
   }
 } /* Map Selection Styles */
 .map-options {

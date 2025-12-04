@@ -304,6 +304,7 @@ function init() {
 
     initSkins(); // Initialize skin selector
     initMaps(); // Initialize map selector
+    initTouchControls(); // Initialize touch controls
 
     // Event listeners
     document.addEventListener('keydown', handleKeyPress);
@@ -316,7 +317,164 @@ function init() {
     
     // Start continuous animation loop for glow effect
     startAnimationLoop();
+    
+    // Handle responsive canvas sizing
+    handleCanvasResize();
+    window.addEventListener('resize', handleCanvasResize);
 }
+
+// Initialize touch controls for mobile
+function initTouchControls() {
+    initSwipeControls();
+    initFullscreen();
+}
+
+// Initialize swipe gesture controls
+function initSwipeControls() {
+    const canvas = document.getElementById('game-canvas');
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+    
+    const minSwipeDistance = 30; // Minimum distance for a swipe to register
+    
+    canvas.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        const touch = e.touches[0];
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+    }, { passive: false });
+    
+    canvas.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+    }, { passive: false });
+    
+    canvas.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        const touch = e.changedTouches[0];
+        touchEndX = touch.clientX;
+        touchEndY = touch.clientY;
+        
+        handleSwipe();
+    }, { passive: false });
+    
+    function handleSwipe() {
+        if (!isRunning) return;
+        
+        const deltaX = touchEndX - touchStartX;
+        const deltaY = touchEndY - touchStartY;
+        const absDeltaX = Math.abs(deltaX);
+        const absDeltaY = Math.abs(deltaY);
+        
+        // Check if swipe distance is sufficient
+        if (absDeltaX < minSwipeDistance && absDeltaY < minSwipeDistance) {
+            return; // Swipe too short
+        }
+        
+        // Determine swipe direction based on which delta is larger
+        if (absDeltaX > absDeltaY) {
+            // Horizontal swipe
+            if (deltaX > 0 && dx !== -1) {
+                // Swipe right
+                dx = 1;
+                dy = 0;
+            } else if (deltaX < 0 && dx !== 1) {
+                // Swipe left
+                dx = -1;
+                dy = 0;
+            }
+        } else {
+            // Vertical swipe
+            if (deltaY > 0 && dy !== -1) {
+                // Swipe down
+                dx = 0;
+                dy = 1;
+            } else if (deltaY < 0 && dy !== 1) {
+                // Swipe up
+                dx = 0;
+                dy = -1;
+            }
+        }
+    }
+}
+
+// Global function for fullscreen toggle (called from HTML onclick)
+function toggleFullscreen() {
+    console.log('toggleFullscreen() - SADECE OYUN!');
+    
+    const gameContainer = document.querySelector('.game-container');
+    
+    if (!document.fullscreenElement) {
+        // Enter fullscreen - ONLY GAME CONTAINER
+        console.log('Oyun tam ekrana giriyor...');
+        gameContainer.requestFullscreen().then(() => {
+            console.log('Oyun tam ekranda!');
+            updateFullscreenButton(true);
+        }).catch(err => {
+            console.error('Fullscreen ERROR:', err);
+            alert('Tam ekran modu başarısız: ' + err.message);
+        });
+    } else {
+        // Exit fullscreen
+        console.log('Tam ekrandan çıkılıyor...');
+        document.exitFullscreen().then(() => {
+            updateFullscreenButton(false);
+        });
+    }
+}
+
+// Update fullscreen button appearance
+function updateFullscreenButton(isFullscreen) {
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
+    const text = fullscreenBtn?.querySelector('.fullscreen-text');
+    
+    if (!fullscreenBtn || !text) return;
+    
+    if (isFullscreen) {
+        // In fullscreen - show exit button (red)
+        fullscreenBtn.classList.add('exit-fullscreen');
+        text.textContent = 'Tam Ekrandan Çık';
+    } else {
+        // Not in fullscreen - show enter button (green)
+        fullscreenBtn.classList.remove('exit-fullscreen');
+        text.textContent = 'Tam Ekran';
+    }
+}
+
+// Initialize fullscreen functionality
+function initFullscreen() {
+    console.log('initFullscreen() - Setting up fullscreen event listeners');
+    
+    // Listen for fullscreen changes from ESC key or other triggers
+    document.addEventListener('fullscreenchange', () => {
+        updateFullscreenButton(!!document.fullscreenElement);
+    });
+    
+    console.log('Fullscreen listeners ready');
+}
+
+// Handle responsive canvas sizing
+function handleCanvasResize() {
+    const canvas = document.getElementById('game-canvas');
+    
+    if (window.innerWidth <= 600) {
+        // Mobile: make canvas responsive
+        const containerWidth = canvas.parentElement.offsetWidth;
+        const newSize = Math.min(containerWidth, CANVAS_SIZE);
+        canvas.style.width = newSize + 'px';
+        canvas.style.height = newSize + 'px';
+    } else if (window.innerWidth <= 900 && window.matchMedia('(orientation: landscape)').matches) {
+        // Landscape mode
+        canvas.style.width = '400px';
+        canvas.style.height = '400px';
+    } else {
+        // Desktop: use original size
+        canvas.style.width = CANVAS_SIZE + 'px';
+        canvas.style.height = CANVAS_SIZE + 'px';
+    }
+}
+
 
 // Continuous animation loop (runs even when game is paused)
 function startAnimationLoop() {
@@ -362,13 +520,38 @@ function startGame() {
     window.requestAnimationFrame(gameLoop);
 }
 
+// End game
 function endGame() {
     isRunning = false;
+    
+    // Update high score
+    if (score > highScore) {
+        highScore = score;
+        StorageManager.setHighScore(highScore);
+        document.getElementById('high-score').textContent = highScore;
+    }
+    
+    // Show game over
     document.getElementById('final-score').textContent = score;
     document.getElementById('game-over-overlay').classList.remove('hidden');
+    
+    // Update fullscreen button state if it exists
+    const gameoverBtn = document.getElementById('gameover-fullscreen-btn');
+    if (gameoverBtn) {
+        const btnText = gameoverBtn.querySelector('.fullscreen-text');
+        if (document.fullscreenElement) {
+            // Already in fullscreen - show exit button (RED)
+            btnText.textContent = 'Tam Ekrandan Çık';
+            gameoverBtn.classList.add('exit-fullscreen');
+        } else {
+            // Not in fullscreen - show enter button (GREEN)
+            btnText.textContent = 'Tam Ekran';
+            gameoverBtn.classList.remove('exit-fullscreen');
+        }
+    }
 }
 
-// Main game loop (runs continuously)
+// Main game loop
 function gameLoop(currentTime) {
     if (!isRunning) return;
 
