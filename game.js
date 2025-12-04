@@ -404,55 +404,39 @@ function toggleFullscreen() {
     console.log('toggleFullscreen() - SADECE OYUN!');
     
     const gameContainer = document.querySelector('.game-container');
+    const doc = window.document;
+    const docEl = doc.documentElement;
     
     // Check if already in fullscreen (with webkit prefix support)
-    const isFullscreen = !!(document.fullscreenElement || 
-                           document.webkitFullscreenElement || 
-                           document.mozFullScreenElement || 
-                           document.msFullscreenElement);
+    const requestFullScreen = gameContainer.requestFullscreen || gameContainer.mozRequestFullScreen || gameContainer.webkitRequestFullScreen || gameContainer.msRequestFullscreen;
+    const cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+    
+    const isFullscreen = !!(doc.fullscreenElement || doc.mozFullScreenElement || doc.webkitFullscreenElement || doc.msFullscreenElement);
     
     if (!isFullscreen) {
         // Enter fullscreen - ONLY GAME CONTAINER
         console.log('Oyun tam ekrana giriyor...');
         
-        // Try different fullscreen methods for cross-browser support
-        if (gameContainer.requestFullscreen) {
-            gameContainer.requestFullscreen().then(() => {
+        if (requestFullScreen) {
+            requestFullScreen.call(gameContainer).then(() => {
                 console.log('Oyun tam ekranda!');
                 updateFullscreenButton(true);
             }).catch(err => {
                 console.error('Fullscreen ERROR:', err);
+                // Fallback to document fullscreen if element fails (common on some mobiles)
+                if (docEl.requestFullscreen) {
+                     docEl.requestFullscreen().catch(e => console.error('Doc Fullscreen Error', e));
+                }
             });
-        } else if (gameContainer.webkitRequestFullscreen) {
-            // Safari/iOS
-            gameContainer.webkitRequestFullscreen();
-            updateFullscreenButton(true);
-        } else if (gameContainer.mozRequestFullScreen) {
-            // Firefox
-            gameContainer.mozRequestFullScreen();
-            updateFullscreenButton(true);
-        } else if (gameContainer.msRequestFullscreen) {
-            // IE/Edge
-            gameContainer.msRequestFullscreen();
-            updateFullscreenButton(true);
         }
     } else {
         // Exit fullscreen
         console.log('Tam ekrandan çıkılıyor...');
         
-        if (document.exitFullscreen) {
-            document.exitFullscreen().then(() => {
+        if (cancelFullScreen) {
+            cancelFullScreen.call(doc).then(() => {
                 updateFullscreenButton(false);
             });
-        } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-            updateFullscreenButton(false);
-        } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen();
-            updateFullscreenButton(false);
-        } else if (document.msExitFullscreen) {
-            document.msExitFullscreen();
-            updateFullscreenButton(false);
         }
     }
 }
@@ -501,10 +485,20 @@ function initFullscreen() {
     
     if (fullscreenBtn) {
         fullscreenBtn.addEventListener('click', toggleFullscreen);
+        // Add touchend for better mobile response
+        fullscreenBtn.addEventListener('touchend', (e) => {
+            e.preventDefault(); // Prevent ghost click
+            toggleFullscreen();
+        });
     }
     
     if (gameoverBtn) {
         gameoverBtn.addEventListener('click', toggleFullscreen);
+        // Add touchend for better mobile response
+        gameoverBtn.addEventListener('touchend', (e) => {
+            e.preventDefault(); // Prevent ghost click
+            toggleFullscreen();
+        });
     }
     
     // Listen for fullscreen changes from ESC key or other triggers (with webkit support)

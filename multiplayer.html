@@ -28,7 +28,7 @@
             align-items: center;
             justify-content: center;
             padding: 10px;
-            min-width: fit-content;
+            /* min-width: fit-content; REMOVED to fix mobile overflow */
             background-attachment: fixed; /* Ensure gradient stays fixed */
         }
 
@@ -637,12 +637,13 @@
             margin-top: 20px;
         }
 
-        .customization-section {
+        /* REMOVED DUPLICATE customization-section to prevent conflicts */
+        /* .customization-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
             margin-top: 20px;
-        }
+        } */
 
         .selection-group {
             background: rgba(30, 41, 59, 0.6);
@@ -754,6 +755,48 @@
             margin-top: 4px;
         }
         
+        /* Desktop Layout Styles */
+        .lobby-content {
+            display: flex;
+            gap: 20px;
+            max-width: 1600px;
+            margin: 0 auto;
+            align-items: flex-start;
+            padding-top: 20px;
+        }
+        
+        .lobby-left {
+            width: 300px;
+            flex-shrink: 0;
+        }
+        
+        .lobby-center {
+            flex: 1;
+        }
+        
+        .lobby-right {
+            width: 600px;
+            flex-shrink: 0;
+        }
+        
+        .lobby-buttons-container {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .customization-section {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            margin-top: 0;
+        }
+        
+        .selection-group {
+            flex: 1;
+        }
+
         /* ========== MOBILE RESPONSIVE ========== */
         @media (max-width: 1200px) {
             /* Global mobile settings */
@@ -1150,6 +1193,203 @@
                 padding: 15px 20px;
                 font-size: 16px;
             }
+
+            /* LOBBY & MENU OVERFLOW FIX - AGGRESSIVE */
+            body {
+                min-width: 0 !important;
+                width: 100% !important;
+                overflow-x: hidden !important;
+            }
+
+            .container {
+                padding: 10px !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: flex-start !important;
+                width: 100% !important;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
+            }
+
+            .lobby-content {
+                flex-direction: column !important;
+                padding-top: 0 !important;
+                gap: 30px !important; /* Increased gap between major sections */
+                margin-top: 0 !important;
+            }
+
+            .lobby-left, .lobby-center, .lobby-right {
+                width: 100% !important;
+                max-width: 100% !important;
+                flex: none !important;
+                margin: 0 !important;
+            }
+            
+            /* Add specific spacing to separate sections */
+            .lobby-center {
+                margin-bottom: 20px !important;
+                border-bottom: 1px solid rgba(255,255,255,0.1); /* Visual separator */
+                padding-bottom: 40px !important; /* Increased to prevent overlap */
+            }
+
+            .chat-card {
+                height: 250px !important; /* Further reduced */
+                margin-bottom: 0 !important;
+            }
+            
+            /* Reduce spacing in lobby header */
+            .lobby-header {
+                margin-bottom: 5px !important;
+                margin-top: 5px !important;
+            }
+            
+            .lobby-header h2 {
+                font-size: 1.2rem;
+                margin-bottom: 2px;
+            }
+            
+            /* Fix button overlap & spacing */
+            .lobby-buttons-container {
+                margin-top: 10px !important;
+                margin-bottom: 20px !important;
+                gap: 10px !important;
+                padding-bottom: 0 !important;
+            }
+            
+            /* Customization section spacing */
+            .lobby-right {
+                margin-top: 20px !important; /* Increased spacing */
+            }
+            
+            .customization-section {
+                display: flex !important;
+                flex-direction: column !important; /* Force vertical stacking */
+                margin-top: 0 !important;
+                gap: 20px !important;
+                width: 100% !important;
+            }
+            
+            .selection-group {
+                padding: 10px !important;
+                margin-bottom: 10px !important;
+            }
+            
+            /* Menu Screen Compactness */
+            .logo-section {
+                margin-bottom: 5px !important;
+                margin-top: 5px !important;
+            }
+            
+            .logo-emoji {
+                font-size: 24px !important;
+                margin-bottom: 0 !important;
+            }
+            
+            .logo-text {
+                font-size: 20px !important;
+                margin-bottom: 0 !important;
+            }
+            
+            .logo-subtitle {
+                font-size: 9px !important;
+            }
+            
+            /* Menu Grid & Cards */
+            .menu-grid {
+                gap: 10px !important;
+                margin-bottom: 10px !important;
+                display: flex !important;
+                flex-direction: column !important;
+            }
+            
+            .card {
+                padding: 15px !important;
+                margin: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            
+            .card-icon {
+                font-size: 30px !important;
+                margin-bottom: 5px !important;
+            }
+            
+            .card h2 {
+                font-size: 18px !important;
+                margin-bottom: 5px !important;
+            }
+            
+            .card p {
+                margin-bottom: 10px !important;
+                font-size: 12px !important;
+            }
+            
+            /* Promo Sidebar in Menu */
+            .promo-sidebar {
+                width: 100% !important;
+                margin-top: 10px !important;
+            }
+            
+            .promo-card {
+                padding: 15px !important;
+            }
+            
+            .promo-icon {
+                font-size: 2.5rem !important;
+                margin-bottom: 5px !important;
+            }
+            
+            .promo-title {
+                font-size: 1.5rem !important;
+                margin: 5px 0 !important;
+            }
+            
+            .promo-username {
+                font-size: 1.2rem !important;
+                margin: 5px 0 !important;
+            }
+            
+            .promo-text {
+                margin: 10px 0 !important;
+                font-size: 0.85rem !important;
+            }
+            
+            .promo-button {
+                margin-top: 10px !important;
+                padding: 10px 20px !important;
+                margin-bottom: 0 !important; /* Ensure no bottom margin */
+            }
+            
+            /* Remove space below promo card */
+            .promo-card {
+                padding-bottom: 15px !important;
+                margin-bottom: 0 !important;
+            }
+            
+            /* Remove space below chat card in lobby */
+            .lobby-left {
+                margin-bottom: 0 !important;
+                padding-bottom: 0 !important;
+            }
+            
+            .chat-card {
+                height: 250px !important;
+                margin-bottom: 0 !important;
+                padding-bottom: 10px !important;
+            }
+            
+            /* Reduce gap between chat and center */
+            .lobby-content {
+                gap: 10px !important; /* Reduced from 30px */
+            }
+            
+            /* Adjust center section spacing */
+            .lobby-center {
+                margin-top: 10px !important;
+                margin-bottom: 10px !important;
+                padding-bottom: 10px !important;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
         }
     </style>
 </head>
@@ -1211,9 +1451,9 @@
 
         <!-- Lobby -->
         <div id="lobby-screen" class="screen">
-            <div class="lobby-content" style="display: flex; gap: 20px; max-width: 1600px; margin: 0 auto; align-items: flex-start; padding-top: 20px;">
+            <div class="lobby-content">
                 <!-- Left: Chat -->
-                <div class="lobby-left" style="width: 300px; flex-shrink: 0;">
+                <div class="lobby-left">
                     <div class="chat-card" style="height: 600px; margin: 0;">
                         <h3>Sohbet</h3>
                         <div id="lobby-chat-messages" class="chat-messages">
@@ -1227,7 +1467,7 @@
                 </div>
 
                 <!-- Center: Game Info & Players -->
-                <div class="lobby-center" style="flex: 1;">
+                <div class="lobby-center">
                     <div class="lobby-header" style="margin-bottom: 20px;">
                         <h2>🎮 Oyun Lobisi</h2>
                         <div class="id-container" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px;">
@@ -1243,24 +1483,23 @@
                         <div id="players-list"></div>
                     </div>
 
-                    <div style="margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="lobby-buttons-container">
                         <button id="ready-btn" class="btn btn-success" onclick="toggleReady()" style="margin-top: 0;">Hazır</button>
                         <button class="btn btn-secondary" onclick="backToMenu()">Çıkış</button>
                     </div>
                 </div>
 
                 <!-- Right: Customization -->
-                <!-- Right: Customization -->
-                <div class="lobby-right" style="width: 600px; flex-shrink: 0;">
-                    <div class="customization-section" style="display: flex; flex-direction: row; gap: 20px; margin-top: 0;">
-                        <div class="selection-group" style="flex: 1;">
+                <div class="lobby-right">
+                    <div class="customization-section">
+                        <div class="selection-group">
                             <h3>🐍 Yılan Görünümü</h3>
                             <div id="skin-options" class="options-grid">
                                 <!-- Skins will be populated here -->
                             </div>
                         </div>
 
-                        <div class="selection-group" style="flex: 1;">
+                        <div class="selection-group">
                             <h3>🗳️ Harita Oylaması</h3>
                             <div id="map-options" class="options-grid">
                                 <!-- Maps will be populated here -->
@@ -3248,6 +3487,13 @@
         
         // Add keyboard event listener for WASD controls
         document.addEventListener('keydown', handleKeyPress);
+
+        // Prevent default scrolling on mobile when playing
+        document.addEventListener('touchmove', function(e) {
+            if (isPlaying) {
+                e.preventDefault();
+            }
+        }, { passive: false });
         
         // Add .hidden class definition dynamically if not exists
         const style = document.createElement('style');
